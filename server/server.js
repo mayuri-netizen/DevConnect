@@ -9,7 +9,7 @@ const app = express();
 // This explicitly tells your backend which frontend URLs are allowed to make requests.
 const allowedOrigins = [
     'http://localhost:5173', // For local development
-    'https://dev-connect-git-main-mayuri-khadses-projects.vercel.app' // Your deployed frontend URL
+    'https://dev-connect-self.vercel.app' // Your NEW deployed frontend URL
 ];
 
 const corsOptions = {
@@ -21,7 +21,6 @@ const corsOptions = {
             callback(new Error('The CORS policy for this site does not allow access from the specified Origin.'));
         }
     },
-    // This is important for preflight requests
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token'],
     credentials: true
@@ -29,7 +28,6 @@ const corsOptions = {
 
 // Use CORS middleware for all routes
 app.use(cors(corsOptions));
-
 // --- End of CORS Configuration ---
 
 
