@@ -76,7 +76,7 @@ const ProjectDetailPage = () => {
                     <button type="submit" className="btn">Post Comment</button>
                 </form>
             ) : (
-                <p className="login-prompt"><Link to="/login">Log in</Link> to leave a comment.</p>
+                <p className="login-prompt"><Link to="/auth">Log in</Link> to leave a comment.</p>
             )}
         </div>
     );
