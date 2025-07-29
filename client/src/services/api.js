@@ -1,9 +1,8 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+// The VITE_API_BASE_URL on Vercel should be just 'https://your-backend-name.onrender.com'
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
 const api = {
-    getMyProjects: () => api.request('/projects/myprojects'),
     async request(endpoint, { body, ...customConfig } = {}) {
-
         const token = localStorage.getItem('token');
         const headers = { 'Content-Type': 'application/json' };
         if (token) {
@@ -23,8 +22,13 @@ const api = {
             config.body = JSON.stringify(body);
         }
 
+        // --- THIS IS THE FIX ---
+        // We construct the full URL by adding /api to the base URL.
+        const fullUrl = `${API_BASE_URL}/api${endpoint}`;
+        // --- END OF FIX ---
+
         try {
-            const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
+            const response = await fetch(fullUrl, config); // Use the corrected fullUrl
             if (!response.ok) {
                 const error = await response.json();
                 return Promise.reject(error);
@@ -40,10 +44,12 @@ const api = {
         }
     },
 
+    // All other functions remain the same
     login: (credentials) => api.request('/auth/login', { body: credentials }),
     register: (userData) => api.request('/auth/register', { body: userData }),
     getMe: () => api.request('/auth/me'),
     getProjects: () => api.request('/projects'),
+    getMyProjects: () => api.request('/projects/myprojects'),
     getProject: (id) => api.request(`/projects/${id}`),
     createProject: (projectData) => api.request('/projects', { body: projectData, method: 'POST' }),
     addComment: (projectId, commentData) => api.request(`/projects/${projectId}/comments`, { body: commentData, method: 'POST' }),
