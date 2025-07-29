@@ -15,16 +15,21 @@ const allowedOrigins = [
 const corsOptions = {
     origin: function (origin, callback) {
         // Allow requests with no origin (like mobile apps or curl requests)
-        if (!origin) return callback(null, true);
-        if (allowedOrigins.indexOf(origin) === -1) {
-            const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
-            return callback(new Error(msg), false);
+        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('The CORS policy for this site does not allow access from the specified Origin.'));
         }
-        return callback(null, true);
-    }
+    },
+    // This is important for preflight requests
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token'],
+    credentials: true
 };
 
+// Use CORS middleware for all routes
 app.use(cors(corsOptions));
+
 // --- End of CORS Configuration ---
 
 
