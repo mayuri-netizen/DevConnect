@@ -1,0 +1,32 @@
+.project-author {
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.project-description {
+    white-space: pre-wrap;
+    /* Preserves line breaks */
+}
+
+.project-links {
+    margin: 1.5rem 0;
+}
+
+.project-links .btn {
+    margin-right: 1rem;
+}
+
+.divider {
+    margin: 2rem 0;
+    border: none;
+    border-top: 1px solid var(--border-color);
+}
+
+.comment-card {
+    background: var(--background-color);
+}
+
+.comment-form,
+.login-prompt {
+    margin-top: 1.5rem;
+}
